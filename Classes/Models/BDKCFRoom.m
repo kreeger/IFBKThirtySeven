@@ -2,6 +2,7 @@
 #import "BDKCFUser.h"
 
 #import <ISO8601DateFormatter/ISO8601DateFormatter.h>
+#import <ObjectiveSugar/ObjectiveSugar.h>
 
 @implementation BDKCFRoom
 

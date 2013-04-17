@@ -1,4 +1,4 @@
-#import "BDKAPIClient.h"
+#import "BDKThirtySevenClient.h"
 
 @class BDKLPAuthorizationData;
 
@@ -7,7 +7,7 @@ typedef void (^AuthDataBlock)(BDKLPAuthorizationData *authData);
 
 /** An adapter for accessing the 37signals Launchpad API, used with user authentication and OAuth2.
  */
-@interface BDKLaunchpadClient : BDKAPIClient
+@interface BDKLaunchpadClient : BDKThirtySevenClient
 
 /** Grabs a singleton instance of the adapter so manual requests can be made.
  *  @returns the singleton instance.

@@ -1,5 +1,5 @@
 #import "BDKLPAccount.h"
-#import "NSString+BDKKit.h"
+#import "NSString+BDKThirtySeven.h"
 
 @implementation BDKLPAccount
 

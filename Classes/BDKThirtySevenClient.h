@@ -9,7 +9,7 @@ typedef void (^EmptyBlock)(void);
 
 /** A generic interface for API clients.
  */
-@interface BDKAPIClient : AFHTTPClient
+@interface BDKThirtySevenClient : AFHTTPClient
 
 /** Cancels any requests in the global queue beginning with a particular prefix.
  *  @param prefix the prefix.

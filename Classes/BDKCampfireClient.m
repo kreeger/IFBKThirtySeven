@@ -1,7 +1,11 @@
 #import "BDKCampfireClient.h"
 #import "BDKCFModels.h"
 
+#import <ObjectiveSugar/ObjectiveSugar.h>
 #import <AFNetworking/AFHTTPRequestOperation.h>
+#import "NSString+BDKThirtySeven.h"
+
+#define kBDKCampfireBaseURL @"https://%@.campfirenow.com"
 
 @interface BDKCampfireClient ()
 
@@ -353,15 +357,6 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [self handleFailureForOperation:operation error:error callback:failure];
     }];
-}
-
-@end
-
-
-@implementation NSString (BDKCampfireClient)
-
-- (NSString *)stringByUrlEncoding {
-    return (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)self, NULL, (CFStringRef)@"!*'();:@&amp;=+$,/?%#[]", kCFStringEncodingUTF8));
 }
 
 @end

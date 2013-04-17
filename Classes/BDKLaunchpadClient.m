@@ -1,9 +1,11 @@
 #import "BDKLaunchpadClient.h"
-#import "BDKAPIKeyManager.h"
 #import "BDKLPModels.h"
-#import "NSString+BDKKit.h"
+#import "NSString+BDKThirtySeven.h"
 
 #import <AFNetworking/AFHTTPRequestOperation.h>
+#import <ObjectiveSugar/ObjectiveSugar.h>
+
+#define kBDKLaunchpadURL @"https://launchpad.37signals.com/authorization/new?type=web_server&client_id=%@&redirect_uri=%@"
 
 @implementation BDKLaunchpadClient
 
@@ -14,8 +16,8 @@
     dispatch_once(&onceToken, ^{
         __sharedInstance = [[BDKLaunchpadClient alloc] initWithBaseURL:
                             [@"https://launchpad.37signals.com/authorization" urlValue]];
-        NSString *token = [[NSUserDefaults standardUserDefaults] valueForKey:kBDKUserDefaultAccessToken];
-        if (token) [__sharedInstance setAuthorizationHeaderWithToken:token];
+        // NSString *token = [[NSUserDefaults standardUserDefaults] valueForKey:kBDKUserDefaultAccessToken];
+        // if (token) [__sharedInstance setAuthorizationHeaderWithToken:token];
     });
     return __sharedInstance;
 }

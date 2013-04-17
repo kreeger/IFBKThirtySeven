@@ -1,4 +1,4 @@
-#import "BDKAPIClient.h"
+#import "BDKThirtySevenClient.h"
 
 @class BDKCFAccount, BDKCFUser, BDKCFRoom, BDKCFMessage, BDKCFUpload;
 
@@ -10,7 +10,7 @@ typedef void (^UploadBlock)(BDKCFUpload *upload);
 
 /** The big kahuna. This manages all inbound and outbound communication with 37signals' Campfire API.
  */
-@interface BDKCampfireClient : BDKAPIClient
+@interface BDKCampfireClient : BDKThirtySevenClient
 
 /** Overrides the parent method of initializing with just a base URL and takes an OAuth access token along with it.
  *  @param url The base URL of the Campfire account to use inside of this API wrapper class.
@@ -263,17 +263,5 @@ typedef void (^UploadBlock)(BDKCFUpload *upload);
  *  @param failure A block to be called upon failure; contains an NSError reference and the HTTP status code received.
  */
 - (void)getCurrentUser:(UserBlock)success failure:(FailureBlock)failure;
-
-@end
-
-
-/** These are handy wrappers around various messages that interact with strings.
- */
-@interface NSString (BDKCampfireClient)
-
-/** URL-encodes a string.
- *  @return a URL-encoded version of self.
- */
-- (NSString *)stringByUrlEncoding;
 
 @end

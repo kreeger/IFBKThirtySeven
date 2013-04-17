@@ -1,5 +1,5 @@
 #import "BDKCFUpload.h"
-#import "NSString+BDKKit.h"
+#import "NSString+BDKThirtySeven.h"
 
 #import <ISO8601DateFormatter/ISO8601DateFormatter.h>
 

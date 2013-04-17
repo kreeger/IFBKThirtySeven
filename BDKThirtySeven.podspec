@@ -11,4 +11,5 @@ Pod::Spec.new do |s|
   s.requires_arc = true
   s.dependency 'SBJson'
   s.dependency 'AFNetworking'
+  s.dependency 'ObjectiveSugar'
 end

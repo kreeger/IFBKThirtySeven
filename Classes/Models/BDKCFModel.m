@@ -1,5 +1,7 @@
 #import "BDKCFModel.h"
 
+#import <ObjectiveSugar/ObjectiveSugar.h>
+
 @implementation BDKCFModel
 
 + (NSDictionary *)apiMappingHash

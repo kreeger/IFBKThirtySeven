@@ -1,9 +1,7 @@
-#import "BDKAPIClient.h"
-
-#import "NSString+BDKKit.h"
+#import "BDKThirtySevenClient.h"
 #import <AFNetworking/AFNetworking.h>
 
-@implementation BDKAPIClient
+@implementation BDKThirtySevenClient
 
 #pragma mark - Initialization and singleton
 

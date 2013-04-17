@@ -1,16 +1,17 @@
-#import "BDKCFAccount.h"
+#import "BDKCFUser.h"
+#import "BDKThirtySevenCommon.h"
+#import "NSString+BDKThirtySeven.h"
 
-@implementation BDKCFAccount
+@implementation BDKCFUser
 
 + (NSDictionary *)apiMappingHash
 {
     return @{@"id": @"identifier",
              @"name": @"name",
-             @"subdomain": @"subdomain",
-             @"plan": @"plan",
-             @"owner_id": @"ownerIdentifier",
-             @"time_zone": @"timeZone",
-             @"storage": @"storage"};
+             @"email_address": @"emailAddress",
+             @"admin": @"admin",
+             @"type": @"type",
+             @"avatar_url": @"avatarUrl"};
 }
 
 - (id)initWithDictionary:(NSDictionary *)dictionary
@@ -19,7 +20,6 @@
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         formatter.dateFormat = kBDKDateFormatCampfire;
         _createdAt = [formatter dateFromString:dictionary[@"created_at"]];
-        _updatedAt = [formatter dateFromString:dictionary[@"updated_at"]];
         formatter = nil;
     }
 
