@@ -10,12 +10,22 @@ typedef void (^AuthDataBlock)(BDKLPAuthorizationData *authData);
 @interface BDKLaunchpadClient : BDKThirtySevenClient
 
 /** Grabs a singleton instance of the adapter so manual requests can be made.
+ *
  *  @returns the singleton instance.
  */
 + (id)sharedInstance;
 
+/** Stores OAuth token identifier information in the shared singleton instance.
+ *  
+ *  @param clientId The OAuth client ID.
+ *  @param clientSecret The OAuth client secret key.
+ *  @param redirectUri The OAuth redirect URI, which is passed in as a post-authentication callback
+ */
++ (void)setClientId:(NSString *)clientId clientSecret:(NSString *)clientSecret redirectUri:(NSString *)redirectUri;
+
 /** Builds the URL for a Launchpad authentication flow, to be used with a UIWebView in retrieving a verification code.
- *  @returns a URL with the application's client key and redirect URI as parameters.
+ *
+ *  @returns A URL with the application's client key and redirect URI as parameters.
  */
 + (NSURL *)launchpadURL;
 

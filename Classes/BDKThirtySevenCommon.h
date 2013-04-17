@@ -1,0 +1,1 @@
+#define kBDKDateFormatCampfire @"yyyy/MM/dd HH:mm:ss ZZZZ"

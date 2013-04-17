@@ -99,7 +99,7 @@
                             error:(NSError *)error
                          callback:(FailureBlock)callback
 {
-    DDLogWarn(@"API failure %i, %@.", operation.response.statusCode, error.localizedDescription);
+    NSLog(@"API failure %i, %@.", operation.response.statusCode, error.localizedDescription);
     callback(error, operation.response.statusCode);
     callback = nil;
 }

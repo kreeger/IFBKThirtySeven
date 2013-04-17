@@ -7,7 +7,25 @@
 
 #define kBDKLaunchpadURL @"https://launchpad.37signals.com/authorization/new?type=web_server&client_id=%@&redirect_uri=%@"
 
+@interface BDKLaunchpadClient ()
+
+/** This application's OAuth client ID.
+ */
+@property (strong, nonatomic) NSString *clientId;
+
+/** This application's OAuth client secret key.
+ */
+@property (strong, nonatomic) NSString *clientSecret;
+
+/** This application's OAuth redirect URI, which is passed in as a post-authentication callback.
+ */
+@property (strong, nonatomic) NSString *redirectUri;
+
+@end
+
 @implementation BDKLaunchpadClient
+
+@synthesize clientId = _clientId, clientSecret = _clientSecret, redirectUri = _redirectUri;
 
 + (id)sharedInstance
 {
@@ -16,18 +34,22 @@
     dispatch_once(&onceToken, ^{
         __sharedInstance = [[BDKLaunchpadClient alloc] initWithBaseURL:
                             [@"https://launchpad.37signals.com/authorization" urlValue]];
-        // NSString *token = [[NSUserDefaults standardUserDefaults] valueForKey:kBDKUserDefaultAccessToken];
-        // if (token) [__sharedInstance setAuthorizationHeaderWithToken:token];
     });
     return __sharedInstance;
 }
 
++ (void)setClientId:(NSString *)clientId clientSecret:(NSString *)clientSecret redirectUri:(NSString *)redirectUri
+{
+    [[self sharedInstance] setClientId:clientId];
+    [[self sharedInstance] setClientSecret:clientSecret];
+    [[self sharedInstance] setRedirectUri:redirectUri];
+}
+
 + (NSURL *)launchpadURL
 {
-    NSString *clientID = [BDKAPIKeyManager apiKeyForKey:kBDK37SignalsClientKey];
-    NSString *redirectURI = [BDKAPIKeyManager apiKeyForKey:kBDK37SignalsRedirectURI];
-    NSString *urlString = NSStringWithFormat(kBDKLaunchpadURL, clientID, redirectURI);
-    return [urlString urlValue];
+    NSString *clientID = [[self sharedInstance] clientId];
+    NSString *redirectURI = [[self sharedInstance] redirectUri];
+    return [NSStringWithFormat(kBDKLaunchpadURL, clientID, redirectURI) urlValue];
 }
 
 + (void)getAccessTokenForVerificationCode:(NSString *)verificationCode
@@ -35,12 +57,11 @@
                                   failure:(FailureBlock)failure
 {
     NSDictionary *params = @{@"type": @"web_server",
-                             @"client_id": [BDKAPIKeyManager apiKeyForKey:kBDK37SignalsClientKey],
-                             @"redirect_uri": [BDKAPIKeyManager apiKeyForKey:kBDK37SignalsRedirectURI],
-                             @"client_secret": [BDKAPIKeyManager apiKeyForKey:kBDK37SignalsClientSecret],
+                             @"client_id": [[self sharedInstance] clientId],
+                             @"redirect_uri": [[self sharedInstance] redirectUri],
+                             @"client_secret": [[self sharedInstance] clientSecret],
                              @"code": verificationCode.stringByUrlEncoding};
     [[self sharedInstance] postPath:@"token" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        DDLogAPI(@"getAccessTokenForVerificationCode:success:failure: hit.");
         NSString *accessToken = responseObject[@"access_token"];
         [[self sharedInstance] setAuthorizationHeaderWithToken:accessToken];
         NSString *refreshToken = responseObject[@"refresh_token"];
@@ -54,7 +75,6 @@
 
 + (void)getAuthorization:(AuthDataBlock)success failure:(FailureBlock)failure {
     [[self sharedInstance] getPath:@"" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        DDLogAPI(@"getAuthorization:failure: hit.");
         BDKLPAuthorizationData *authData = [BDKLPAuthorizationData modelWithDictionary:responseObject];
         success(authData);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
