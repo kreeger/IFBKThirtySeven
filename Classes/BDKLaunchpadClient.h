@@ -29,6 +29,12 @@ typedef void (^AuthDataBlock)(BDKLPAuthorizationData *authData);
  */
 + (NSURL *)launchpadURL;
 
+/** Stores the OAuth token inside the adapter for all future calls.
+ *
+ *  @param bearerToken The string of the OAuth token; will be set with "Bearer %@".
+ */
++ (void)setBearerToken:(NSString *)bearerToken;
+
 /** Calls the Launchpad API to retrieve an OAuth access token, a refresh token, and the duration of the token's life.
  *  Upon successful verification, the access token returned by the success block is also set in the adapter's
  *  authentication header for future API calls.

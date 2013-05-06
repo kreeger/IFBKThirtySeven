@@ -27,8 +27,7 @@
 
 @synthesize clientId = _clientId, clientSecret = _clientSecret, redirectUri = _redirectUri;
 
-+ (id)sharedInstance
-{
++ (id)sharedInstance {
     static BDKLaunchpadClient *__sharedInstance;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -38,32 +37,34 @@
     return __sharedInstance;
 }
 
-+ (void)setClientId:(NSString *)clientId clientSecret:(NSString *)clientSecret redirectUri:(NSString *)redirectUri
-{
++ (void)setClientId:(NSString *)clientId clientSecret:(NSString *)clientSecret redirectUri:(NSString *)redirectUri {
     [[self sharedInstance] setClientId:clientId];
     [[self sharedInstance] setClientSecret:clientSecret];
     [[self sharedInstance] setRedirectUri:redirectUri];
 }
 
-+ (NSURL *)launchpadURL
-{
++ (NSURL *)launchpadURL {
     NSString *clientID = [[self sharedInstance] clientId];
     NSString *redirectURI = [[self sharedInstance] redirectUri];
     return [NSStringWithFormat(kBDKLaunchpadURL, clientID, redirectURI) urlValue];
 }
 
++ (void)setBearerToken:(NSString *)bearerToken {
+    [[self sharedInstance] setDefaultHeader:@"Authorization"
+                                      value:[NSString stringWithFormat:@"Bearer %@", bearerToken]];
+}
+
 + (void)getAccessTokenForVerificationCode:(NSString *)verificationCode
                                   success:(TokenSuccessBlock)success
-                                  failure:(FailureBlock)failure
-{
+                                  failure:(FailureBlock)failure {
     NSDictionary *params = @{@"type": @"web_server",
                              @"client_id": [[self sharedInstance] clientId],
                              @"redirect_uri": [[self sharedInstance] redirectUri],
                              @"client_secret": [[self sharedInstance] clientSecret],
-                             @"code": verificationCode.stringByUrlEncoding};
+                             @"code": [verificationCode stringByUrlEncoding]};
     [[self sharedInstance] postPath:@"token" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSString *accessToken = responseObject[@"access_token"];
-        [[self sharedInstance] setAuthorizationHeaderWithToken:accessToken];
+        [self setBearerToken:accessToken];
         NSString *refreshToken = responseObject[@"refresh_token"];
         NSTimeInterval interval = [responseObject[@"expires_in"] doubleValue];
         NSDate *expiresAt = [[NSDate date] dateByAddingTimeInterval:interval];

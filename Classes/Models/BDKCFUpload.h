@@ -32,6 +32,10 @@
  */
 @property (strong, nonatomic) NSString *fullUrl;
 
+/** The full URL where the file resides and can be retrieved, as a URL.
+ */
+@property (readonly) NSURL *fullUrlValue;
+
 /** The date and time when the file was uploaded.
  */
 @property (strong, nonatomic) NSDate *createdAt;

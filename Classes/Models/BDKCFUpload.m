@@ -26,4 +26,11 @@
     return self;
 }
 
+#pragma mark - Properties
+
+- (NSURL *)fullUrlValue
+{
+    return [NSURL URLWithString:self.fullUrl];
+}
+
 @end

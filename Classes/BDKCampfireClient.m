@@ -32,7 +32,7 @@
 - (id)initWithBaseURL:(NSURL *)url accessToken:(NSString *)accessToken
 {
     if (self = [super initWithBaseURL:url]) {
-        [self setAuthorizationHeaderWithToken:accessToken];
+        [self setBearerToken:accessToken];
     }
     return self;
 }
@@ -48,6 +48,10 @@
     [self.operationQueue.operations each:^(AFHTTPRequestOperation *operation) {
         if ([operation.request.URL.description hasPrefix:requestMatch]) [operation cancel];
     }];
+}
+
+- (void)setBearerToken:(NSString *)bearerToken {
+    [self setDefaultHeader:@"Authorization" value:[NSString stringWithFormat:@"Bearer %@", bearerToken]];
 }
 
 #pragma mark - Private methods

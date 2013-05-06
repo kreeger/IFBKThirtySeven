@@ -26,6 +26,12 @@ typedef void (^UploadBlock)(BDKCFUpload *upload);
  */
 - (id)initWithSubdomain:(NSString *)subdomain accessToken:(NSString *)accessToken;
 
+/** Stores the OAuth token inside the adapter for all future calls.
+ *
+ *  @param bearerToken The string of the OAuth token; will be set with "Bearer %@".
+ */
+- (void)setBearerToken:(NSString *)bearerToken;
+
 #pragma mark - Account methods
 
 /** Fetches info about the current account.
