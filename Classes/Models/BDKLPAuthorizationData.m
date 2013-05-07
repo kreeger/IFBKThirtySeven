@@ -3,7 +3,6 @@
 #import "BDKLPAccount.h"
 
 #import <ISO8601DateFormatter/ISO8601DateFormatter.h>
-#import <ObjectiveSugar/ObjectiveSugar.h>
 
 @implementation BDKLPAuthorizationData
 
@@ -11,10 +10,11 @@
 {
     if ((self = [super initWithDictionary:dictionary])) {
         _identity = [BDKLPIdentity modelWithDictionary:dictionary[@"identity"]];
-        _accounts = [dictionary[@"accounts"] map:^BDKLPAccount *(NSDictionary *dict) {
-            return [BDKLPAccount modelWithDictionary:dict];
-        }];
-        
+        NSMutableArray *accounts = [NSMutableArray arrayWithCapacity:[dictionary[@"accounts"] count]];
+        for (NSDictionary *account in dictionary[@"accounts"]) {
+            [accounts addObject:[BDKLPAccount modelWithDictionary:account]];
+        }
+        _accounts = [NSArray arrayWithArray:accounts];
         ISO8601DateFormatter *formatter = [[ISO8601DateFormatter alloc] init];
         _expiresAt = [formatter dateFromString:dictionary[@"expires_at"]];
         formatter = nil;

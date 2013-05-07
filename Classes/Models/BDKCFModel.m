@@ -1,7 +1,5 @@
 #import "BDKCFModel.h"
 
-#import <ObjectiveSugar/ObjectiveSugar.h>
-
 @implementation BDKCFModel
 
 + (NSDictionary *)apiMappingHash
@@ -17,11 +15,12 @@
 - (id)initWithDictionary:(NSDictionary *)dictionary
 {
     if ((self = [super init])) {
-        [[dictionary allKeys] each:^(NSString *key) {
-            unless ([[self class] apiMappingHash][key]) return;
-            id value = dictionary[key];// == (id)[NSNull null] ? nil : dictionary[key];
-            [self setValue:value forKeyPath:[[self class] apiMappingHash][key]];
-        }];
+        for (NSString *key in [dictionary allKeys]) {
+            if ([[self class] apiMappingHash][key]) {
+                id value = dictionary[key];// == (id)[NSNull null] ? nil : dictionary[key];
+                [self setValue:value forKeyPath:[[self class] apiMappingHash][key]];
+            }
+        }
     }
 
     return self;

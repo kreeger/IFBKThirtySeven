@@ -2,7 +2,6 @@
 #import "BDKCFUser.h"
 
 #import <ISO8601DateFormatter/ISO8601DateFormatter.h>
-#import <ObjectiveSugar/ObjectiveSugar.h>
 
 @implementation BDKCFRoom
 
@@ -20,9 +19,11 @@
     if ((self = [super initWithDictionary:dictionary])) {
         _full = [dictionary[@"full"] isEqualToString:@"true"];
         _openToGuests = [dictionary[@"open_to_guests"] isEqualToString:@"true"];
-        _users = [dictionary[@"users"] map:^BDKCFUser *(NSDictionary *dict) {
-            return [BDKCFUser modelWithDictionary:dict];
-        }];
+        NSMutableArray *users = [NSMutableArray arrayWithCapacity:[dictionary[@"users"] count]];
+        for (NSDictionary *user in dictionary[@"users"]) {
+            [users addObject:[BDKCFUser modelWithDictionary:user]];
+        }
+        _users = [NSArray arrayWithArray:users];
         ISO8601DateFormatter *formatter = [[ISO8601DateFormatter alloc] init];
         _createdAt = [formatter dateFromString:dictionary[@"created_at"]];
         _updatedAt = [formatter dateFromString:dictionary[@"updated_at"]];
