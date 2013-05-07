@@ -105,7 +105,7 @@
                             error:(NSError *)error
                          callback:(FailureBlock)callback
 {
-    NSLog(@"API failure %i, %@.", (long)operation.response.statusCode, error.localizedDescription);
+    NSLog(@"API failure %l, %@.", (long)operation.response.statusCode, error.localizedDescription);
     callback(error, operation.response.statusCode);
     callback = nil;
 }
@@ -302,7 +302,7 @@
     void (^progressBlock)(NSUInteger, long long, long long) = ^(NSUInteger written,
                                                                 long long totalWritten,
                                                                 long long totalToWrite) {
-        NSLog(@"Sent %i of %lld bytes", written, (unsigned long)totalToWrite);
+        NSLog(@"Sent %ul of %ll bytes", (unsigned long)written, totalToWrite);
     };
     void (^completionBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id responseObject) {
         BDKCFUpload *upload = [BDKCFUpload modelWithDictionary:responseObject[@"upload"]];
