@@ -3,7 +3,6 @@
 #import "NSString+BDKThirtySeven.h"
 
 #import <AFNetworking/AFHTTPRequestOperation.h>
-#import <ObjectiveSugar/ObjectiveSugar.h>
 
 #define kBDKLaunchpadURL @"https://launchpad.37signals.com/authorization/new?type=web_server&client_id=%@&redirect_uri=%@"
 
@@ -46,7 +45,7 @@
 + (NSURL *)launchpadURL {
     NSString *clientID = [[self sharedInstance] clientId];
     NSString *redirectURI = [[self sharedInstance] redirectUri];
-    return [NSStringWithFormat(kBDKLaunchpadURL, clientID, redirectURI) urlValue];
+    return [NSURL URLWithString:[NSString stringWithFormat:kBDKLaunchpadURL, clientID, redirectURI]];
 }
 
 + (void)setBearerToken:(NSString *)bearerToken {
