@@ -3,6 +3,7 @@
 #import "NSString+BDKThirtySeven.h"
 
 #import <AFNetworking/AFHTTPRequestOperation.h>
+#import <AFNetworking/AFJSONRequestOperation.h>
 
 #define kBDKLaunchpadURL @"https://launchpad.37signals.com/authorization/new?type=web_server&client_id=%@&redirect_uri=%@"
 
@@ -34,6 +35,13 @@
                             [@"https://launchpad.37signals.com/authorization" urlValue]];
     });
     return __sharedInstance;
+}
+
+- (id)initWithBaseURL:(NSURL *)url {
+    if (self = [super initWithBaseURL:url]) {
+        [self registerHTTPOperationClass:[AFJSONRequestOperation class]];
+    }
+    return self;
 }
 
 + (void)setClientId:(NSString *)clientId clientSecret:(NSString *)clientSecret redirectUri:(NSString *)redirectUri {
