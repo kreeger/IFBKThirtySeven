@@ -11,7 +11,8 @@
              @"email_address": @"emailAddress",
              @"admin": @"admin",
              @"type": @"type",
-             @"avatar_url": @"avatarUrl"};
+             @"avatar_url": @"avatarUrl",
+             @"api_auth_token": @"apiAuthToken"};
 }
 
 - (id)initWithDictionary:(NSDictionary *)dictionary

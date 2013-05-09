@@ -1,4 +1,5 @@
 #import "BDKThirtySevenClient.h"
+#import <AFNetworking/AFJSONRequestOperation.h>
 
 @implementation BDKThirtySevenClient
 
@@ -11,6 +12,7 @@
         [self setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
             [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationAPIReachabilityChanged object:nil];
         }];
+        [self registerHTTPOperationClass:[AFJSONRequestOperation class]];
     }
     return self;
 }

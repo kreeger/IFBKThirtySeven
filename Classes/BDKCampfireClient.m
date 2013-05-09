@@ -32,7 +32,6 @@
 - (id)initWithBaseURL:(NSURL *)url accessToken:(NSString *)accessToken {
     if (self = [super initWithBaseURL:url]) {
         [self setBearerToken:accessToken];
-        [self registerHTTPOperationClass:[AFJSONRequestOperation class]];
     }
     return self;
 }

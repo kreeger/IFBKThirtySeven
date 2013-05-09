@@ -32,4 +32,8 @@
  */
 @property (strong, nonatomic) NSString *avatarUrl;
 
+/** The user's API authentication token.
+ */
+@property (strong, nonatomic) NSString *apiAuthToken;
+
 @end

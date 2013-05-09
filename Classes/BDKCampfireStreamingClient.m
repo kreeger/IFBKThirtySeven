@@ -1,11 +1,3 @@
-//
-//  IFToastingRoomStreamClient.m
-//  CampfireTest
-//
-//  Created by Fabio Pelosin on 23/01/13.
-//  Copyright (c) 2013 Discontinuity. All rights reserved.
-//
-
 #import "BDKCampfireStreamingClient.h"
 
 #import "BDKCFMessage.h"
@@ -14,8 +6,6 @@
 #import <AFNetworking/AFHTTPClient.h>
 
 #define kBDKCampfireStreamingBaseURL @"https://streaming.campfirenow.com/"
-
-///-----------------------------------------------------------------------------
 
 @interface BDKCampfireStreamingClient () <SBJsonStreamParserAdapterDelegate>
 
@@ -29,9 +19,8 @@
 
 @end
 
-///-----------------------------------------------------------------------------
-
 @implementation BDKCampfireStreamingClient
+
 @synthesize roomId = _roomId, authorizationToken = _authorizationToken;
 
 - (id)initWithRoomId:(NSNumber *)roomId authorizationToken:(NSString *)authorizationToken {
@@ -42,9 +31,7 @@
     return self;
 }
 
-///-----------------------------------------------------------------------------
 #pragma mark - Public methods
-///-----------------------------------------------------------------------------
 
 - (void)openConnectionWithSuccess:(void (^)())success failure:(void (^)(NSError *error))failure {
     self.connectionSuccess = success;

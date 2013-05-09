@@ -37,13 +37,6 @@
     return __sharedInstance;
 }
 
-- (id)initWithBaseURL:(NSURL *)url {
-    if (self = [super initWithBaseURL:url]) {
-        [self registerHTTPOperationClass:[AFJSONRequestOperation class]];
-    }
-    return self;
-}
-
 + (void)setClientId:(NSString *)clientId clientSecret:(NSString *)clientSecret redirectUri:(NSString *)redirectUri {
     [[self sharedInstance] setClientId:clientId];
     [[self sharedInstance] setClientSecret:clientSecret];
