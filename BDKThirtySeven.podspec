@@ -13,5 +13,5 @@ Pod::Spec.new do |s|
   s.requires_arc = true
   s.dependency 'AFNetworking', '~> 1.2'
   s.dependency 'ISO8601DateFormatter', '~> 0.6'
-  s.dependency 'yajl', '~> 2.0.4'
+  s.dependency 'SBJson', '~> 3.2'
 end
