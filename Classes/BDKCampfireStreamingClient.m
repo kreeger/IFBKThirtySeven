@@ -80,7 +80,10 @@
 #pragma mark - NSURLConnectionDelegate
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
-    if (self.connectionSuccess) self.connectionSuccess();
+    if (self.connectionSuccess) {
+        self.connectionSuccess();
+        self.connectionSuccess = nil;
+    }
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
@@ -95,7 +98,9 @@
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
     [self openConnection];
-    if (self.connectionFailure) self.connectionFailure(error);
+    if (self.connectionFailure) {
+        self.connectionFailure(error);
+    }
 }
 
 @end
