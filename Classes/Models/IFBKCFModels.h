@@ -1,0 +1,5 @@
+#import "IFBKCFAccount.h"
+#import "IFBKCFMessage.h"
+#import "IFBKCFRoom.h"
+#import "IFBKCFUpload.h"
+#import "IFBKCFUser.h"
