@@ -1,4 +1,4 @@
-# BDKThirtySeven
+# IFBKThirtySeven
 
 A collection of API adapters for 37signal's various services.
 
