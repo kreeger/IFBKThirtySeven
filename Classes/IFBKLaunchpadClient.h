@@ -3,6 +3,7 @@
 @class IFBKLPAuthorizationData;
 
 typedef void (^TokenSuccessBlock)(NSString *accessToken, NSString *refreshToken, NSDate *expiresAt);
+typedef void (^TokenRefreshSuccessBlock)(NSString *accessToken, NSDate *expiresAt);
 typedef void (^AuthDataBlock)(IFBKLPAuthorizationData *authData);
 
 /** An adapter for accessing the 37signals Launchpad API, used with user authentication and OAuth2.
@@ -39,7 +40,7 @@ typedef void (^AuthDataBlock)(IFBKLPAuthorizationData *authData);
  *  Upon successful verification, the access token returned by the success block is also set in the adapter's
  *  authentication header for future API calls.
  * 
- *  @param verificationCode The short code returned with by the OAuth2 login action; cannot be nil.
+ *  @param verificationCode The short code returned by the OAuth2 login action; cannot be nil.
  *  @param success A block to be called upon successful verification of the verificationCode. Will be handed the
  *                 accessToken, refreshToken, and expiresAt objects.
  *  @param failure A block to be called upon potential failure. Will be handed an error and HTTP status code.
@@ -47,6 +48,19 @@ typedef void (^AuthDataBlock)(IFBKLPAuthorizationData *authData);
 + (void)getAccessTokenForVerificationCode:(NSString *)verificationCode
                                   success:(TokenSuccessBlock)success
                                   failure:(FailureBlock)failure;
+
+/** Calls the Launchpad API to refresh an OAuth access token based on a refresh token previously granted to the client.
+ *  Upon successful verification, the access token returned by the success block is also set in the adapter's
+ *  authentication header for future API calls.
+ *
+ *  @param refreshToken The refresh token returned by a call to get previous access token; cannot be nil.
+ *  @param success A block to be called upon successful refresh of the token. Will be handed a new accessToken 
+ *                 and expiresAt objects.
+ *  @param failure A block to be called upon potential failure. Will be handed an error and HTTP status code.
+ */
++ (void)refreshAccessTokenWithRefreshToken:(NSString *)refreshToken
+                                   success:(TokenRefreshSuccessBlock)success
+                                   failure:(FailureBlock)failure;
 
 /** Calls the Launchpad API to ensure the current access token is still good, and retrieves a list of services to which
  *  the currently-authenticated user has access.
