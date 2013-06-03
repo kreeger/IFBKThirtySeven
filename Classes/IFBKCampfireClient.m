@@ -325,6 +325,7 @@
     NSString *path = [NSString stringWithFormat:@"users/%@", userId];
     [self getPath:path parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         IFBKCFUser *user = [IFBKCFUser modelWithDictionary:responseObject[@"user"]];
+        NSLog(@"API HIT: grabbed user %@.", user.name);
         success(user);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [self handleFailureForOperation:operation error:error callback:failure];
