@@ -1,8 +1,6 @@
 #import "IFBKCFUpload.h"
 #import "NSString+IFBKThirtySeven.h"
 
-#import <ISO8601DateFormatter/ISO8601DateFormatter.h>
-
 @implementation IFBKCFUpload
 
 + (NSDictionary *)apiMappingHash
@@ -19,7 +17,8 @@
 - (id)initWithDictionary:(NSDictionary *)dictionary
 {
     if ((self = [super initWithDictionary:dictionary])) {
-        ISO8601DateFormatter *formatter = [[ISO8601DateFormatter alloc] init];
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        formatter.dateFormat = @"yyyy/MM/dd HH:mm:ss Z";
         _createdAt = [formatter dateFromString:dictionary[@"created_at"]];
         formatter = nil;
     }

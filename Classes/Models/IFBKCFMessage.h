@@ -30,15 +30,15 @@ typedef enum {
 
 /** The 37signals Campfire API message identifier.
  */
-@property (strong, nonatomic) NSNumber *identifier;
+@property (readonly) NSNumber *identifier;
 
 /** The 37signals Campfire API room identifier where the message was posted.
  */
-@property (strong, nonatomic) NSNumber *roomIdentifier;
+@property (readonly) NSNumber *roomIdentifier;
 
 /** The 37signals Campfire API user identifier of the message poster.
  */
-@property (strong, nonatomic) NSNumber *userIdentifier;
+@property (readonly) NSNumber *userIdentifier;
 
 /** The text of the message.
  */
@@ -46,7 +46,11 @@ typedef enum {
 
 /** The date and time when the message was created.
  */
-@property (strong, nonatomic) NSDate *createdAt;
+@property (readonly) NSDate *createdAt;
+
+/** A prettier-formatted version of the createdAt timestamp.
+ */
+@property (readonly) NSString *createdAtDisplay;
 
 /** The type of message that was posted.
  */

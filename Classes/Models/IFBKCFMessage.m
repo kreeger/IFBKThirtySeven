@@ -1,8 +1,9 @@
 #import "IFBKCFMessage.h"
 
-#import <ISO8601DateFormatter/ISO8601DateFormatter.h>
-
 @implementation IFBKCFMessage
+
+@synthesize identifier = _identifier, roomIdentifier = _roomIdentifier, userIdentifier = _userIdentifier;
+@synthesize createdAt = _createdAt, createdAtDisplay = _createdAtDisplay;
 
 + (NSDictionary *)apiMappingHash {
     return @{@"id": @"identifier",
@@ -26,10 +27,13 @@
 
 - (id)initWithDictionary:(NSDictionary *)dictionary {
     if ((self = [super initWithDictionary:dictionary])) {
-        ISO8601DateFormatter *formatter = [[ISO8601DateFormatter alloc] init];
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        formatter.dateFormat = @"yyyy/MM/dd HH:mm:ss Z";
         _createdAt = [formatter dateFromString:dictionary[@"created_at"]];
+        formatter.dateFormat = @"K:mm a";
+        _createdAtDisplay = [formatter stringFromDate:_createdAt];
         formatter = nil;
-
+        
         _starred = [dictionary[@"starred"] boolValue];
     }
 
