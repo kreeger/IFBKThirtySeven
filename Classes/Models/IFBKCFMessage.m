@@ -30,7 +30,7 @@
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         formatter.dateFormat = @"yyyy/MM/dd HH:mm:ss Z";
         _createdAt = [formatter dateFromString:dictionary[@"created_at"]];
-        formatter.dateFormat = @"K:mm a";
+        formatter.dateFormat = @"h:mm a";
         _createdAtDisplay = [formatter stringFromDate:_createdAt];
         formatter = nil;
         
@@ -38,6 +38,10 @@
     }
 
     return self;
+}
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<IFBKCFMessage %@, %@>", self.type, self.createdAt];
 }
 
 #pragma mark - Properties

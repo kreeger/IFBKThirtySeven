@@ -1,5 +1,4 @@
 #import "IFBKThirtySevenClient.h"
-#import <AFNetworking/AFJSONRequestOperation.h>
 
 @implementation IFBKThirtySevenClient
 

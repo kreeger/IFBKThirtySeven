@@ -1,8 +1,8 @@
 #import "IFBKCampfireClient.h"
 #import "IFBKCFModels.h"
 
-#import <AFNetworking/AFHTTPRequestOperation.h>
-#import <AFNetworking/AFJSONRequestOperation.h>
+#import <AFNetworking/AFNetworking.h>
+#import <MobileCoreServices/MobileCoreServices.h>
 #import "NSString+IFBKThirtySeven.h"
 
 #define kIFBKCampfireBaseURL @"https://%@.campfirenow.com"
@@ -135,7 +135,7 @@
             sinceMessageId:(NSNumber *)sinceMessageId
                    success:(ArrayBlock)success
                    failure:(FailureBlock)failure {
-    [self getMessagesForRoom:roomId limit:100 sinceMessageId:sinceMessageId success:success failure:failure];
+    [self getMessagesForRoom:roomId limit:50 sinceMessageId:sinceMessageId success:success failure:failure];
 }
 
 - (void)getMessagesForRoom:(NSNumber *)roomId

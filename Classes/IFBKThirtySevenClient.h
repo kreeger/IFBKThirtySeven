@@ -1,4 +1,5 @@
-#import <AFNetworking/AFHTTPClient.h>
+#import <SystemConfiguration/SystemConfiguration.h>
+#import <AFNetworking/AFNetworking.h>
 
 #define kNotificationAPIReachabilityChanged @"NotificationAPIReachabilityChanged"
 
