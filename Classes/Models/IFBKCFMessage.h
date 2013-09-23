@@ -72,7 +72,7 @@ typedef enum {
  *  submitted to the Campfire API.
  *  @param body The body text of the message.
  *  @param type The type of the message.
- *  @returns An instance of self.
+ *  @return An instance of self.
  */
 + (id)messageWithBody:(NSString *)body type:(NSString *)type;
 
@@ -80,7 +80,7 @@ typedef enum {
  *  submitted to the Campfire API.
  *  @param body The body text of the message.
  *  @param type The type of the message.
- *  @returns An instance of self.
+ *  @return An instance of self.
  */
 - (id)initWithBody:(NSString *)body type:(NSString *)type;
 

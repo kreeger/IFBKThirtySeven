@@ -9,15 +9,16 @@
 
 @interface IFBKLaunchpadClient ()
 
-/** This application's OAuth client ID.
+/**
+ This application's OAuth client ID.
  */
 @property (strong, nonatomic) NSString *clientId;
-
-/** This application's OAuth client secret key.
+/**
+ This application's OAuth client secret key.
  */
 @property (strong, nonatomic) NSString *clientSecret;
-
-/** This application's OAuth redirect URI, which is passed in as a post-authentication callback.
+/**
+ This application's OAuth redirect URI, which is passed in as a post-authentication callback.
  */
 @property (strong, nonatomic) NSString *redirectUri;
 
@@ -31,8 +32,8 @@
     static IFBKLaunchpadClient *__sharedInstance;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        __sharedInstance = [[IFBKLaunchpadClient alloc] initWithBaseURL:
-                            [@"https://launchpad.37signals.com/authorization" urlValue]];
+        NSURL *baseURL = [NSURL URLWithString:@"https://launchpad.37signals.com/authorization"];
+        __sharedInstance = [[IFBKLaunchpadClient alloc] initWithBaseURL:baseURL];
     });
     return __sharedInstance;
 }
@@ -50,8 +51,12 @@
 }
 
 + (void)setBearerToken:(NSString *)bearerToken {
-    [[self sharedInstance] setDefaultHeader:@"Authorization"
-                                      value:[NSString stringWithFormat:@"Bearer %@", bearerToken]];
+    if (bearerToken && ![bearerToken isEqualToString:@""]) {
+        [[self sharedInstance] setDefaultHeader:@"Authorization"
+                                          value:[NSString stringWithFormat:@"Bearer %@", bearerToken]];
+    } else {
+        [[self sharedInstance] clearAuthorizationHeader];
+    }
 }
 
 + (void)getAccessTokenForVerificationCode:(NSString *)verificationCode
@@ -97,7 +102,7 @@
                             }];
 }
 
-+ (void)getAuthorization:(AuthDataBlock)success failure:(FailureBlock)failure {
++ (void)getAuthorizationData:(AuthDataBlock)success failure:(FailureBlock)failure {
     [[self sharedInstance] getPath:@"" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         IFBKLPAuthorizationData *authData = [IFBKLPAuthorizationData modelWithDictionary:responseObject];
         success(authData);

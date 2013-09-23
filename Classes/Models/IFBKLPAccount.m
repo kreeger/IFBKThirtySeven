@@ -3,19 +3,16 @@
 
 @implementation IFBKLPAccount
 
-+ (NSDictionary *)apiMappingHash
-{
++ (NSDictionary *)apiMappingHash {
     return @{@"id": @"identifier",
              @"name": @"name",
              @"href": @"href",
              @"product": @"product"};
 }
 
-- (id)initWithDictionary:(NSDictionary *)dictionary
-{
-    if ((self = [super initWithDictionary:dictionary])) {
-    }
-
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary {
+    self = [super initWithDictionary:dictionary];
+    if (!self) return nil;
     return self;
 }
 

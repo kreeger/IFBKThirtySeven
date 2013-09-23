@@ -1,3 +1,5 @@
+#import <SystemConfiguration/SystemConfiguration.h>
+#import <AFNetworking/AFNetworking.h>
 #import "IFBKThirtySevenClient.h"
 
 @class IFBKCFAccount, IFBKCFUser, IFBKCFRoom, IFBKCFMessage, IFBKCFUpload;
@@ -15,16 +17,16 @@ typedef void (^UploadBlock)(IFBKCFUpload *upload);
 /** Overrides the parent method of initializing with just a base URL and takes an OAuth access token along with it.
  *  @param url The base URL of the Campfire account to use inside of this API wrapper class.
  *  @param accessToken A user's OAuth2-spec access token, to be sent with each call.
- *  @returns An instance of self.
+ *  @return An instance of self.
  */
-- (id)initWithBaseURL:(NSURL *)url accessToken:(NSString *)accessToken;
+- (instancetype)initWithBaseURL:(NSURL *)url accessToken:(NSString *)accessToken;
 
 /** Overrides the parent method of initializing with just a base URL and takes an OAuth access token along with it.
  *  @param subdomain The base subdomain of the Campfire account to use inside of this API wrapper class.
  *  @param accessToken A user's OAuth2-spec access token, to be sent with each call.
- *  @returns An instance of self.
+ *  @return An instance of self.
  */
-- (id)initWithSubdomain:(NSString *)subdomain accessToken:(NSString *)accessToken;
+- (instancetype)initWithSubdomain:(NSString *)subdomain accessToken:(NSString *)accessToken;
 
 /** Stores the OAuth token inside the adapter for all future calls.
  *
