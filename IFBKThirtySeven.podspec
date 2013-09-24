@@ -9,7 +9,9 @@ Pod::Spec.new do |s|
   s.source_files = 'Classes', 'Classes/**/*.{h,m}'
   s.ios.deployment_target = '5.1'
   s.osx.deployment_target = '10.7'
-  s.frameworks   = 'SystemConfiguration', 'MobileCoreServices'
+  s.frameworks   = 'SystemConfiguration'
+  s.ios.frameworks = 'MobileCoreServices'
+  s.osx.frameworks = 'CoreServices'
   s.requires_arc = true
   s.dependency 'AFNetworking', '~> 1.2'
   s.dependency 'SBJson', '~> 3.2'

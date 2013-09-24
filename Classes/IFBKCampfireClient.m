@@ -1,9 +1,13 @@
 #import "IFBKCampfireClient.h"
 #import "IFBKCFModels.h"
+#import "NSString+IFBKThirtySeven.h"
 
 #import <AFNetworking/AFNetworking.h>
+#if __IPHONE_OS_VERSION_MIN_REQUIRED
 #import <MobileCoreServices/MobileCoreServices.h>
-#import "NSString+IFBKThirtySeven.h"
+#else
+#import <CoreServices/CoreServices.h>
+#endif
 
 #define kIFBKCampfireBaseURL @"https://%@.campfirenow.com"
 
