@@ -3,6 +3,7 @@
 typedef enum {
     IFBKMessageTypeText = 0,
     IFBKMessageTypePaste,
+    IFBKMessageTypeTweet,
     IFBKMessageTypeSound,
     IFBKMessageTypeAdvertisement,
     IFBKMessageTypeAllowGuests,

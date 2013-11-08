@@ -49,6 +49,7 @@
 + (NSDictionary *)messageTypeMappings {
     return @{@"TextMessage": @(IFBKMessageTypeText),
              @"PasteMessage": @(IFBKMessageTypePaste),
+             @"TweetMessage": @(IFBKMessageTypeTweet),
              @"SoundMessage": @(IFBKMessageTypeSound),
              @"AdvertisementMessage": @(IFBKMessageTypeAdvertisement),
              @"AllowGuestsMessage": @(IFBKMessageTypeAllowGuests),
