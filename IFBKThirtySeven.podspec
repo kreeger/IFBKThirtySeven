@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
   s.license      = { :type => 'MIT', :file => 'license.markdown' }
   s.authors      = { 'Ben Kreeger' => 'ben@kree.gr', 'Fabio Pelosin' => 'fabiopelosin@gmail.com' }
   s.source       = { :git => 'https://github.com/kreeger/IFBKThirtySeven.git', :tag => "v#{s.version}" }
-  s.source_files = 'Classes', 'Classes/**/*.{h,m}'
+  s.source_files = 'Classes'
   s.ios.deployment_target = '5.1'
   s.osx.deployment_target = '10.7'
   s.frameworks   = 'SystemConfiguration'
@@ -15,4 +15,8 @@ Pod::Spec.new do |s|
   s.requires_arc = true
   s.dependency 'AFNetworking', '~> 1.2'
   s.dependency 'SBJson', '~> 3.2'
+
+  s.subspec 'Models' do |sp|
+    sp.source_files = 'Classes/**/*.{h,m}'
+  end
 end
