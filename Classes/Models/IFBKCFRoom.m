@@ -15,8 +15,8 @@
 - (id)initWithDictionary:(NSDictionary *)dictionary
 {
     if ((self = [super initWithDictionary:dictionary])) {
-        _full = dictionary[@"full"];
-        _openToGuests = dictionary[@"open_to_guests"];
+        _full = [dictionary[@"full"] boolValue];
+        _openToGuests = [dictionary[@"open_to_guests"] boolValue];
         NSMutableArray *users = [NSMutableArray arrayWithCapacity:[dictionary[@"users"] count]];
         for (NSDictionary *user in dictionary[@"users"]) {
             [users addObject:[IFBKCFUser modelWithDictionary:user]];

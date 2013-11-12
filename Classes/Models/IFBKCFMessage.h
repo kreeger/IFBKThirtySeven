@@ -1,6 +1,6 @@
 #import "IFBKCFModel.h"
 
-typedef enum {
+typedef NS_ENUM(NSUInteger, IFBKMessageType) {
     IFBKMessageTypeText = 0,
     IFBKMessageTypePaste,
     IFBKMessageTypeTweet,
@@ -22,8 +22,7 @@ typedef enum {
     IFBKMessageTypeConferenceCreated,
     IFBKMessageTypeConferenceFinished,
     IFBKMessageTypeUnknown,
-
-} IFBKMessageType;
+} ;
 
 /** An internal representation of a posted message in a IFBKCFRoom.
  */

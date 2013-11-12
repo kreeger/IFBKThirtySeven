@@ -34,7 +34,7 @@
 
 #pragma mark - Public methods
 
-- (void)openConnectionWithSuccess:(void (^)())success failure:(void (^)(NSError *error))failure {
+- (void)openConnectionWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure {
     self.connectionSuccess = success;
     self.connectionFailure = failure;
 	self.adapter = [[SBJsonStreamParserAdapter alloc] init];
@@ -107,7 +107,7 @@
         }
     } else {
         NSString *responseString = [NSString stringWithUTF8String:[data bytes]];
-        NSDictionary *userInfo = @{ NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Unexpected Response code: %d - %@", self.connectionResponseCode, responseString] };
+        NSDictionary *userInfo = @{ NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Unexpected Response code: %lu - %@", (unsigned long)self.connectionResponseCode, responseString] };
         NSError *error = [NSError errorWithDomain:@"ERRORDOMAIN" code:0001 userInfo:userInfo];
         if (self.connectionFailure) {
             self.connectionFailure(error);
