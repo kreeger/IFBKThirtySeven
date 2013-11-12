@@ -41,7 +41,8 @@
 }
 
 - (id)initWithSubdomain:(NSString *)subdomain accessToken:(NSString *)accessToken {
-    return [self initWithBaseURL:[NSString stringWithFormat:kIFBKCampfireBaseURL, subdomain] accessToken:accessToken];
+    NSString *baseURL = [NSString stringWithFormat:kIFBKCampfireBaseURL, subdomain];
+    return [self initWithBaseURL:[NSURL URLWithString:baseURL] accessToken:accessToken];
 }
 
 - (void)cancelRequestsWithPrefix:(NSString *)prefix {
@@ -103,9 +104,8 @@
 - (void)handleFailureForOperation:(AFHTTPRequestOperation *)operation
                             error:(NSError *)error
                          callback:(FailureBlock)callback {
-    NSLog(@"API failure %i, %@.", operation.response.statusCode, error.localizedDescription);
+    NSLog(@"API failure %li, %@.", (long)operation.response.statusCode, error.localizedDescription);
     callback(error, operation.response.statusCode);
-    callback = nil;
 }
 
 #pragma mark - Account methods
@@ -128,8 +128,8 @@
             failure:(FailureBlock)failure {
     NSString *path = [NSString stringWithFormat:@"room/%@/speak", roomId];
     [self postPath:path parameters:message.asApiData success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        IFBKCFMessage *message = [IFBKCFMessage modelWithDictionary:responseObject[@"message"]];
-        success(message);
+        IFBKCFMessage *responseMessage = [IFBKCFMessage modelWithDictionary:responseObject[@"message"]];
+        success(responseMessage);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [self handleFailureForOperation:operation error:error callback:failure];
     }];
@@ -282,7 +282,7 @@
     void (^progressBlock)(NSUInteger, long long, long long) = ^(NSUInteger written,
                                                                 long long totalWritten,
                                                                 long long totalToWrite) {
-        NSLog(@"Sent %i of %ll bytes", written, totalToWrite);
+        NSLog(@"Sent %lu of %lld bytes", (unsigned long)written, totalToWrite);
     };
     void (^completionBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id responseObject) {
         IFBKCFUpload *upload = [IFBKCFUpload modelWithDictionary:responseObject[@"upload"]];
