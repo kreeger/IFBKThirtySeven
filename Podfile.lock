@@ -1,0 +1,26 @@
+PODS:
+  - AFNetworking (1.3.3)
+  - IFBKThirtySeven (0.0.4):
+    - AFNetworking (~> 1.2)
+    - IFBKThirtySeven/Models
+    - SBJson (~> 3.2)
+  - IFBKThirtySeven/Models (0.0.4):
+    - AFNetworking (~> 1.2)
+    - SBJson (~> 3.2)
+  - SBJson (3.2)
+
+DEPENDENCIES:
+  - AFNetworking (~> 1.2)
+  - IFBKThirtySeven (from `.`)
+  - SBJson (~> 3.2)
+
+EXTERNAL SOURCES:
+  IFBKThirtySeven:
+    :path: .
+
+SPEC CHECKSUMS:
+  AFNetworking: 0700ec7a58c36ad217173e167f6e4df7270df66b
+  IFBKThirtySeven: e4d3d3dfed1f62634b049299d7ccfd6ff6e6babf
+  SBJson: e60b4dc22448c2ae1e754b523a4ab53408e85c8d
+
+COCOAPODS: 0.27.1
