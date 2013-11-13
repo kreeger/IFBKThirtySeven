@@ -70,7 +70,6 @@
 }
 
 - (NSDictionary *)asApiData {
-    // TODO: Convert line breaks to &#xA;
     return @{@"message": @{@"body": self.body, @"type": self.type}};
 }
 
