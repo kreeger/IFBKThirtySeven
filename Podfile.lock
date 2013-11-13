@@ -7,11 +7,19 @@ PODS:
   - IFBKThirtySeven/Models (0.0.4):
     - AFNetworking (~> 1.2)
     - SBJson (~> 3.2)
+  - Kiwi/ARC (2.2.3)
+  - Kiwi/NonARC (2.2.3)
+  - Kiwi/XCTest (2.2.3):
+    - Kiwi/ARC
+    - Kiwi/NonARC
+  - Nocilla (0.7.1)
   - SBJson (3.2)
 
 DEPENDENCIES:
   - AFNetworking (~> 1.2)
   - IFBKThirtySeven (from `.`)
+  - Kiwi/XCTest
+  - Nocilla
   - SBJson (~> 3.2)
 
 EXTERNAL SOURCES:
@@ -21,6 +29,8 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   AFNetworking: 0700ec7a58c36ad217173e167f6e4df7270df66b
   IFBKThirtySeven: e4d3d3dfed1f62634b049299d7ccfd6ff6e6babf
+  Kiwi: 04c51e880831d291748ec702d42c4101f7eb95c9
+  Nocilla: 79bf72b15b7e6589d3d37ffa7540d7271fb75121
   SBJson: e60b4dc22448c2ae1e754b523a4ab53408e85c8d
 
 COCOAPODS: 0.27.1

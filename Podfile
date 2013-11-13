@@ -5,4 +5,6 @@ end
 
 target "ProjectTests" do
   pod 'IFBKThirtySeven', :path => '.'
+  pod 'Kiwi/XCTest'
+  pod 'Nocilla', :inhibit_warnings => true
 end
