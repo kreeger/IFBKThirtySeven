@@ -77,7 +77,7 @@
                                 NSDate *expiresAt = [[NSDate date] dateByAddingTimeInterval:interval];
                                 success(accessToken, refreshToken, expiresAt);
                             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                failure(error, operation.response.statusCode);
+                                failure(error, operation.response);
                             }];
 }
 
@@ -98,7 +98,7 @@
                                 NSDate *expiresAt = [[NSDate date] dateByAddingTimeInterval:interval];
                                 success(accessToken, expiresAt);
                             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                failure(error, operation.response.statusCode);
+                                failure(error, operation.response);
                             }];
 }
 
@@ -107,7 +107,7 @@
         IFBKLPAuthorizationData *authData = [IFBKLPAuthorizationData modelWithDictionary:responseObject];
         success(authData);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        failure(error, operation.response.statusCode);
+        failure(error, operation.response);
     }];
 }
 

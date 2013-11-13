@@ -106,7 +106,7 @@
                             error:(NSError *)error
                          callback:(FailureBlock)callback {
     NSLog(@"API failure %li, %@.", (long)operation.response.statusCode, error.localizedDescription);
-    callback(error, operation.response.statusCode);
+    callback(error, operation.response);
 }
 
 #pragma mark - Account methods

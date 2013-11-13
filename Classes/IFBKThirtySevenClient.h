@@ -3,7 +3,7 @@
 
 #define kNotificationAPIReachabilityChanged @"NotificationAPIReachabilityChanged"
 
-typedef void (^FailureBlock)(NSError *error, NSInteger responseCode);
+typedef void (^FailureBlock)(NSError *error, NSHTTPURLResponse *response);
 typedef void (^SuccessBlock)(id responseObject);
 typedef void (^ArrayBlock)(NSArray *result);
 typedef void (^EmptyBlock)(void);
