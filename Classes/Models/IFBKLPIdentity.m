@@ -2,8 +2,7 @@
 
 @implementation IFBKLPIdentity
 
-+ (NSDictionary *)apiMappingHash
-{
++ (NSDictionary *)apiMappingHash {
     return @{@"id": @"identifier",
              @"email_address": @"emailAddress",
              @"first_name": @"firstName",

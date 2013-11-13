@@ -33,14 +33,15 @@
 
 @implementation IFBKCampfireClient
 
-- (id)initWithBaseURL:(NSURL *)url accessToken:(NSString *)accessToken {
-    if (self = [super initWithBaseURL:url]) {
-        [self setBearerToken:accessToken];
-    }
+- (instancetype)initWithBaseURL:(NSURL *)url accessToken:(NSString *)accessToken {
+    self = [super initWithBaseURL:url];
+    if (!self) return nil;
+    
+    [self setBearerToken:accessToken];
     return self;
 }
 
-- (id)initWithSubdomain:(NSString *)subdomain accessToken:(NSString *)accessToken {
+- (instancetype)initWithSubdomain:(NSString *)subdomain accessToken:(NSString *)accessToken {
     NSString *baseURL = [NSString stringWithFormat:kIFBKCampfireBaseURL, subdomain];
     return [self initWithBaseURL:[NSURL URLWithString:baseURL] accessToken:accessToken];
 }

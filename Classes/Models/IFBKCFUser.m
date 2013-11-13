@@ -4,8 +4,7 @@
 
 @implementation IFBKCFUser
 
-+ (NSDictionary *)apiMappingHash
-{
++ (NSDictionary *)apiMappingHash {
     return @{@"id": @"identifier",
              @"name": @"name",
              @"email_address": @"emailAddress",
@@ -15,15 +14,14 @@
              @"api_auth_token": @"apiAuthToken"};
 }
 
-- (id)initWithDictionary:(NSDictionary *)dictionary
-{
-    if ((self = [super initWithDictionary:dictionary])) {
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        formatter.dateFormat = kIFBKDateFormatCampfire;
-        _createdAt = [formatter dateFromString:dictionary[@"created_at"]];
-        formatter = nil;
-    }
+- (id)initWithDictionary:(NSDictionary *)dictionary {
+    self = [super initWithDictionary:dictionary];
+    if (!self) return nil;
 
+    NSDateFormatter *formatter = [NSDateFormatter new];
+    [formatter setDateFormat:kIFBKDateFormatCampfire];
+    _createdAt = [formatter dateFromString:dictionary[@"created_at"]];
+    formatter = nil;
     return self;
 }
 

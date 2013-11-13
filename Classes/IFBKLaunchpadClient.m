@@ -28,7 +28,7 @@
 
 @synthesize clientId = _clientId, clientSecret = _clientSecret, redirectUri = _redirectUri;
 
-+ (id)sharedInstance {
++ (instancetype)sharedInstance {
     static IFBKLaunchpadClient *__sharedInstance;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{

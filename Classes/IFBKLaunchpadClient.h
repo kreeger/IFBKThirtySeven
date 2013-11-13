@@ -16,7 +16,7 @@ typedef void (^AuthDataBlock)(IFBKLPAuthorizationData *authData);
 
  @return the singleton instance.
  */
-+ (id)sharedInstance;
++ (instancetype)sharedInstance;
 
 /**
  Stores OAuth token identifier information in the shared singleton instance.

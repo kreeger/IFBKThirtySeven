@@ -13,7 +13,7 @@
  */
 + (NSDictionary *)apiMappingHash;
 
-+ (id)modelWithDictionary:(NSDictionary *)dictionary;
-- (id)initWithDictionary:(NSDictionary *)dictionary;
++ (instancetype)modelWithDictionary:(NSDictionary *)dictionary;
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
 @end

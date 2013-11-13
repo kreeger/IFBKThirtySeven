@@ -24,11 +24,12 @@
 
 @synthesize roomId = _roomId, authorizationToken = _authorizationToken;
 
-- (id)initWithRoomId:(NSNumber *)roomId authorizationToken:(NSString *)authorizationToken {
-    if (self = [super init]) {
-        _roomId = roomId;
-        _authorizationToken = authorizationToken;
-    }
+- (instancetype)initWithRoomId:(NSNumber *)roomId authorizationToken:(NSString *)authorizationToken {
+    self = [super init];
+    if (!self) return nil;
+
+    _roomId = roomId;
+    _authorizationToken = authorizationToken;
     return self;
 }
 

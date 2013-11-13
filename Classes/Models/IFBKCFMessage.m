@@ -13,30 +13,30 @@
              @"type": @"type"};
 }
 
-+ (id)messageWithBody:(NSString *)body type:(NSString *)type {
++ (instancetype)messageWithBody:(NSString *)body type:(NSString *)type {
     return [[self alloc] initWithBody:body type:type];
 }
 
-- (id)initWithBody:(NSString *)body type:(NSString *)type {
-    if (self = [super init]) {
-        _body = body;
-        _type = type;
-    }
+- (instancetype)initWithBody:(NSString *)body type:(NSString *)type {
+    self = [super init];
+    if (!self) return nil;
+
+    _body = body;
+    _type = type;
     return self;
 }
 
-- (id)initWithDictionary:(NSDictionary *)dictionary {
-    if ((self = [super initWithDictionary:dictionary])) {
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        formatter.dateFormat = @"yyyy/MM/dd HH:mm:ss Z";
-        _createdAt = [formatter dateFromString:dictionary[@"created_at"]];
-        formatter.dateFormat = @"h:mm a";
-        _createdAtDisplay = [formatter stringFromDate:_createdAt];
-        formatter = nil;
-        
-        _starred = [dictionary[@"starred"] boolValue];
-    }
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary {
+    self = [super initWithDictionary:dictionary];
+    if (!self) return nil;
 
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = @"yyyy/MM/dd HH:mm:ss Z";
+    _createdAt = [formatter dateFromString:dictionary[@"created_at"]];
+    formatter.dateFormat = @"h:mm a";
+    _createdAtDisplay = [formatter stringFromDate:_createdAt];
+    formatter = nil;
+    _starred = [dictionary[@"starred"] boolValue];
     return self;
 }
 

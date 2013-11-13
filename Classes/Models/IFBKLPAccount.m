@@ -13,6 +13,7 @@
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
     self = [super initWithDictionary:dictionary];
     if (!self) return nil;
+    
     return self;
 }
 

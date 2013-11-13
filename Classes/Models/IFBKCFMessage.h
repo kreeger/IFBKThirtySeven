@@ -74,7 +74,7 @@ typedef NS_ENUM(NSUInteger, IFBKMessageType) {
  *  @param type The type of the message.
  *  @return An instance of self.
  */
-+ (id)messageWithBody:(NSString *)body type:(NSString *)type;
++ (instancetype)messageWithBody:(NSString *)body type:(NSString *)type;
 
 /** An initializer that creates a IFBKCFMessage with a body and message type; an object created here is intended to be
  *  submitted to the Campfire API.
@@ -82,6 +82,6 @@ typedef NS_ENUM(NSUInteger, IFBKMessageType) {
  *  @param type The type of the message.
  *  @return An instance of self.
  */
-- (id)initWithBody:(NSString *)body type:(NSString *)type;
+- (instancetype)initWithBody:(NSString *)body type:(NSString *)type;
 
 @end
