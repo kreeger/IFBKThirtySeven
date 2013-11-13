@@ -22,11 +22,17 @@
  */
 @property (strong, nonatomic) NSString *redirectUri;
 
++ (void)handleSuccessfulAuthorization:(AFHTTPRequestOperation *)operation
+                           withObject:(id)responseObject
+                           completion:(TokenSuccessBlock)completion;
+
 @end
 
 @implementation IFBKLaunchpadClient
 
 @synthesize clientId = _clientId, clientSecret = _clientSecret, redirectUri = _redirectUri;
+
+#pragma mark - Lifecycle
 
 + (instancetype)sharedInstance {
     static IFBKLaunchpadClient *__sharedInstance;
@@ -37,6 +43,23 @@
     });
     return __sharedInstance;
 }
+
+#pragma mark - Private methods
+
++ (void)handleSuccessfulAuthorization:(AFHTTPRequestOperation *)operation
+                           withObject:(id)responseObject
+                           completion:(TokenSuccessBlock)completion {
+    NSString *accessToken = responseObject[@"access_token"];
+    [self setBearerToken:accessToken];
+    NSString *refreshToken = responseObject[@"refresh_token"];
+    NSTimeInterval interval = [responseObject[@"expires_in"] doubleValue];
+    NSDate *expiresAt = [[NSDate date] dateByAddingTimeInterval:interval];
+    if (completion) {
+        completion(accessToken, refreshToken, expiresAt);
+    }
+}
+
+#pragma mark - Methods
 
 + (void)setClientId:(NSString *)clientId clientSecret:(NSString *)clientSecret redirectUri:(NSString *)redirectUri {
     [[self sharedInstance] setClientId:clientId];
@@ -69,16 +92,14 @@
                              @"code": [verificationCode stringByUrlEncoding]};
     [[self sharedInstance] postPath:@"token"
                          parameters:params
-                            success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                NSString *accessToken = responseObject[@"access_token"];
-                                [self setBearerToken:accessToken];
-                                NSString *refreshToken = responseObject[@"refresh_token"];
-                                NSTimeInterval interval = [responseObject[@"expires_in"] doubleValue];
-                                NSDate *expiresAt = [[NSDate date] dateByAddingTimeInterval:interval];
-                                success(accessToken, refreshToken, expiresAt);
-                            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                failure(error, operation.response);
-                            }];
+                            success:^(AFHTTPRequestOperation *operation, id responseObject)
+     {
+         [self handleSuccessfulAuthorization:operation
+                                  withObject:responseObject
+                                  completion:success];
+     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+         failure(error, operation.response);
+     }];
 }
 
 + (void)refreshAccessTokenWithRefreshToken:(NSString *)refreshToken
@@ -88,18 +109,20 @@
                              @"refresh_token": refreshToken,
                              @"client_id": [[self sharedInstance] clientId],
                              @"client_secret": [[self sharedInstance] clientSecret]};
-    // TODO: refactor this with getAccessToken... so long as this call works
     [[self sharedInstance] postPath:@"token"
                          parameters:params
-                            success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                NSString *accessToken = responseObject[@"access_token"];
-                                [self setBearerToken:accessToken];
-                                NSTimeInterval interval = [responseObject[@"expires_in"] doubleValue];
-                                NSDate *expiresAt = [[NSDate date] dateByAddingTimeInterval:interval];
-                                success(accessToken, expiresAt);
-                            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                failure(error, operation.response);
-                            }];
+                            success:^(AFHTTPRequestOperation *operation, id responseObject)
+     {
+         [self handleSuccessfulAuthorization:operation
+                                  withObject:responseObject
+                                  completion:^(NSString *accessToken, NSString *innerRefreshToken, NSDate *expiresAt) {
+                                      if (success) {
+                                          success(accessToken, expiresAt);
+                                      }
+                                  }];
+     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+         failure(error, operation.response);
+     }];
 }
 
 + (void)getAuthorizationData:(AuthDataBlock)success failure:(FailureBlock)failure {
