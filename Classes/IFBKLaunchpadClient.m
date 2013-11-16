@@ -3,7 +3,7 @@
 #import "NSString+IFBKThirtySeven.h"
 
 #import <AFNetworking/AFHTTPRequestOperation.h>
-#import <AFNetworking/AFJSONRequestOperation.h>
+//#import <AFNetworking/AFJSONRequestOperation.h>
 
 #define kIFBKLaunchpadURL @"https://launchpad.37signals.com/authorization/new?type=web_server&client_id=%@&redirect_uri=%@"
 
@@ -75,10 +75,10 @@
 
 + (void)setBearerToken:(NSString *)bearerToken {
     if (bearerToken && ![bearerToken isEqualToString:@""]) {
-        [[self sharedInstance] setDefaultHeader:@"Authorization"
-                                          value:[NSString stringWithFormat:@"Bearer %@", bearerToken]];
+        [[[self sharedInstance] requestSerializer] setValue:[NSString stringWithFormat:@"Bearer %@", bearerToken]
+                                         forHTTPHeaderField:@"Authorization"];
     } else {
-        [[self sharedInstance] clearAuthorizationHeader];
+        [[[self sharedInstance] requestSerializer] clearAuthorizationHeader];
     }
 }
 
@@ -90,9 +90,9 @@
                              @"redirect_uri": [[self sharedInstance] redirectUri],
                              @"client_secret": [[self sharedInstance] clientSecret],
                              @"code": [verificationCode stringByUrlEncoding]};
-    [[self sharedInstance] postPath:@"token"
-                         parameters:params
-                            success:^(AFHTTPRequestOperation *operation, id responseObject)
+    [[self sharedInstance] POST:@"token"
+                     parameters:params
+                        success:^(AFHTTPRequestOperation *operation, id responseObject)
      {
          [self handleSuccessfulAuthorization:operation
                                   withObject:responseObject
@@ -109,9 +109,9 @@
                              @"refresh_token": refreshToken,
                              @"client_id": [[self sharedInstance] clientId],
                              @"client_secret": [[self sharedInstance] clientSecret]};
-    [[self sharedInstance] postPath:@"token"
-                         parameters:params
-                            success:^(AFHTTPRequestOperation *operation, id responseObject)
+    [[self sharedInstance] POST:@"token"
+                     parameters:params
+                        success:^(AFHTTPRequestOperation *operation, id responseObject)
      {
          [self handleSuccessfulAuthorization:operation
                                   withObject:responseObject
@@ -126,7 +126,7 @@
 }
 
 + (void)getAuthorizationData:(AuthDataBlock)success failure:(FailureBlock)failure {
-    [[self sharedInstance] getPath:@"" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [[self sharedInstance] GET:@"" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         IFBKLPAuthorizationData *authData = [IFBKLPAuthorizationData modelWithDictionary:responseObject];
         success(authData);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

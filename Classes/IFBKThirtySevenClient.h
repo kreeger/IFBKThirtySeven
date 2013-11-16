@@ -11,17 +11,7 @@ typedef void (^EmptyBlock)(void);
 /**
  A generic interface for API clients.
  */
-@interface IFBKThirtySevenClient : AFHTTPClient
-
-/**
- The callback dispatch queue on success. If `NULL` (default), the main queue is used.
- */
-@property (nonatomic, assign) dispatch_queue_t successCallbackQueue;
-
-/**
- The callback dispatch queue on failure. If `NULL` (default), the main queue is used.
- */
-@property (nonatomic, assign) dispatch_queue_t failureCallbackQueue;
+@interface IFBKThirtySevenClient : AFHTTPRequestOperationManager
 
 /**
  Cancels any requests in the global queue beginning with a particular prefix.

@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
   s.ios.frameworks = 'MobileCoreServices'
   s.osx.frameworks = 'CoreServices'
   s.requires_arc = true
-  s.dependency 'AFNetworking', '~> 1.2'
+  s.dependency 'AFNetworking', '~> 2.0.2'
   s.dependency 'SBJson', '~> 3.2'
 
   s.subspec 'Models' do |sp|

@@ -49,18 +49,21 @@
 - (void)cancelRequestsWithPrefix:(NSString *)prefix {
     NSString *requestMatch = [NSString stringWithFormat:@"%@%@", [self baseURL], prefix];
     for (AFHTTPRequestOperation *operation in [self.operationQueue operations]) {
-        if ([[[operation.request URL] description] hasPrefix:requestMatch]) [operation cancel];
+        if ([[[operation.request URL] description] hasPrefix:requestMatch]) {
+            [operation cancel];
+        }
     }
 }
 
 - (void)setBearerToken:(NSString *)bearerToken {
-    [self setDefaultHeader:@"Authorization" value:[NSString stringWithFormat:@"Bearer %@", bearerToken]];
+    [self.requestSerializer setValue:[NSString stringWithFormat:@"Bearer %@", bearerToken]
+                  forHTTPHeaderField:@"Authorization"];
 }
 
 #pragma mark - Private methods
 
 - (void)getRoomsForPath:(NSString *)path success:(ArrayBlock)success failure:(FailureBlock)failure {
-    [self getPath:path parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [self GET:path parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSMutableArray *rooms = [NSMutableArray arrayWithCapacity:[responseObject[@"rooms"] count]];
         for (NSDictionary *room in responseObject[@"rooms"]) {
             [rooms addObject:[IFBKCFRoom modelWithDictionary:room]];
@@ -75,7 +78,7 @@
                     params:(NSDictionary *)params
                    success:(ArrayBlock)success
                    failure:(FailureBlock)failure {
-    [self getPath:path parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [self GET:path parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSMutableArray *messages = [NSMutableArray arrayWithCapacity:[responseObject[@"messages"] count]];
         for (NSDictionary *message in responseObject[@"messages"]) {
             [messages addObject:[IFBKCFMessage modelWithDictionary:message]];
@@ -91,7 +94,7 @@
                    params:(NSDictionary *)params
                   success:(ArrayBlock)success
                   failure:(FailureBlock)failure {
-    [self getPath:path parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [self GET:path parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSMutableArray *uploads = [NSMutableArray arrayWithCapacity:[responseObject[@"uploads"] count]];
         for (NSDictionary *upload in responseObject[@"uploads"]) {
             [uploads addObject:[IFBKCFUpload modelWithDictionary:upload]];
@@ -113,7 +116,7 @@
 
 - (void)getCurrentAccount:(AccountBlock)success failure:(FailureBlock)failure {
     NSString *path = @"account";
-    [self getPath:path parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [self GET:path parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         IFBKCFAccount *account = [IFBKCFAccount modelWithDictionary:responseObject[@"account"]];
         success(account);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -128,7 +131,7 @@
             success:(MessageBlock)success
             failure:(FailureBlock)failure {
     NSString *path = [NSString stringWithFormat:@"room/%@/speak", roomId];
-    [self postPath:path parameters:message.asApiData success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [self POST:path parameters:message.asApiData success:^(AFHTTPRequestOperation *operation, id responseObject) {
         IFBKCFMessage *responseMessage = [IFBKCFMessage modelWithDictionary:responseObject[@"message"]];
         success(responseMessage);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -157,7 +160,7 @@
 
 - (void)highlightMessage:(NSNumber *)messageId success:(EmptyBlock)success failure:(FailureBlock)failure {
     NSString *path = [NSString stringWithFormat:@"messages/%@/star", messageId];
-    [self postPath:path parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [self POST:path parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         success();
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [self handleFailureForOperation:operation error:error callback:failure];
@@ -166,7 +169,7 @@
 
 - (void)unhighlightMessage:(NSNumber *)messageId success:(EmptyBlock)success failure:(FailureBlock)failure {
     NSString *path = [NSString stringWithFormat:@"messages/%@/star", messageId];
-    [self deletePath:path parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [self DELETE:path parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         success();
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [self handleFailureForOperation:operation error:error callback:failure];
@@ -185,7 +188,7 @@
 
 - (void)getRoomForId:(NSNumber *)roomId success:(RoomBlock)success failure:(FailureBlock)failure {
     NSString *path = [NSString stringWithFormat:@"room/%@", roomId];
-    [self getPath:path parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [self GET:path parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         IFBKCFRoom *room = [IFBKCFRoom modelWithDictionary:responseObject[@"room"]];
         success(room);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -195,7 +198,7 @@
 
 - (void)updateRoom:(IFBKCFRoom *)room success:(EmptyBlock)success failure:(FailureBlock)failure {
     NSString *path = [NSString stringWithFormat:@"room/%@", room.identifier];
-    [self putPath:path parameters:room.asApiData success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [self PUT:path parameters:room.asApiData success:^(AFHTTPRequestOperation *operation, id responseObject) {
         success();
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [self handleFailureForOperation:operation error:error callback:failure];
@@ -204,7 +207,7 @@
 
 - (void)joinRoom:(NSNumber *)roomId success:(EmptyBlock)success failure:(FailureBlock)failure {
     NSString *path = [NSString stringWithFormat:@"room/%@/join", roomId];
-    [self postPath:path parameters:nil
+    [self POST:path parameters:nil
            success:^(AFHTTPRequestOperation *operation, id responseObject) {
                success();
            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -214,7 +217,7 @@
 
 - (void)leaveRoom:(NSNumber *)roomId success:(EmptyBlock)success failure:(FailureBlock)failure {
     NSString *path = [NSString stringWithFormat:@"room/%@/leave", roomId];
-    [self postPath:path parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [self POST:path parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         success();
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [self handleFailureForOperation:operation error:error callback:failure];
@@ -223,7 +226,7 @@
 
 - (void)lockRoom:(NSNumber *)roomId success:(EmptyBlock)success failure:(FailureBlock)failure {
     NSString *path = [NSString stringWithFormat:@"room/%@/lock", roomId];
-    [self postPath:path parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [self POST:path parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         success();
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [self handleFailureForOperation:operation error:error callback:failure];
@@ -232,7 +235,7 @@
 
 - (void)unlockRoom:(NSNumber *)roomId success:(EmptyBlock)success failure:(FailureBlock)failure {
     NSString *path = [NSString stringWithFormat:@"room/%@/unlock", roomId];
-    [self postPath:path parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [self POST:path parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         success();
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [self handleFailureForOperation:operation error:error callback:failure];
@@ -294,14 +297,14 @@
     };
 
     NSString *path = [NSString stringWithFormat:@"room/%@/uploads", roomId];
-    NSMutableURLRequest *request = [self multipartFormRequestWithMethod:@"POST"
-                                                                   path:path
-                                                             parameters:nil
-                                              constructingBodyWithBlock:appendBlock];
+    NSMutableURLRequest *request = [self.requestSerializer multipartFormRequestWithMethod:@"POST"
+                                                                                URLString:path
+                                                                               parameters:nil
+                                                                constructingBodyWithBlock:appendBlock];
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
     [operation setUploadProgressBlock:progressBlock];
     [operation setCompletionBlockWithSuccess:completionBlock failure:failureBlock];
-    [self enqueueHTTPRequestOperation:operation];
+    [self.operationQueue addOperation:operation];
 }
 
 - (void)getRecentUploadsForRoomId:(NSNumber *)roomId success:(ArrayBlock)success failure:(FailureBlock)failure {
@@ -316,7 +319,7 @@
                       success:(UploadBlock)success
                       failure:(FailureBlock)failure {
     NSString *path = [NSString stringWithFormat:@"room/%@/messages/%@/upload", roomId, messageId];
-    [self getPath:path parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [self GET:path parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         IFBKCFUpload *upload = [IFBKCFUpload modelWithDictionary:responseObject[@"upload"]];
         success(upload);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -328,7 +331,7 @@
 
 - (void)getUserForId:(NSNumber *)userId success:(UserBlock)success failure:(FailureBlock)failure {
     NSString *path = [NSString stringWithFormat:@"users/%@", userId];
-    [self getPath:path parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [self GET:path parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         IFBKCFUser *user = [IFBKCFUser modelWithDictionary:responseObject[@"user"]];
         NSLog(@"API HIT: grabbed user %@.", user.name);
         success(user);
@@ -339,7 +342,7 @@
 
 - (void)getCurrentUser:(UserBlock)success failure:(FailureBlock)failure {
     NSString *path = @"users/me";
-    [self getPath:path parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [self GET:path parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         IFBKCFUser *user = [IFBKCFUser modelWithDictionary:responseObject[@"user"]];
         success(user);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

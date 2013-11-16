@@ -1,5 +1,5 @@
 target "Project" do
-  pod 'AFNetworking', '~> 1.2'
+  pod 'AFNetworking', '~> 2.0.2'
   pod 'SBJson', '~> 3.2'
 end
 

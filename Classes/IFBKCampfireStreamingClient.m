@@ -3,7 +3,7 @@
 #import "IFBKCFMessage.h"
 
 #import <SBJson/SBJson.h>
-#import <AFNetworking/AFHTTPClient.h>
+#import <AFNetworking/AFHTTPRequestOperationManager.h>
 
 #define kIFBKCampfireStreamingBaseURL @"https://streaming.campfirenow.com/"
 
@@ -61,11 +61,11 @@
     NSURL *url = [NSURL URLWithString:kIFBKCampfireStreamingBaseURL];
     NSString *path = [NSString stringWithFormat:@"room/%@/live.json", self.roomId];
 
-    AFHTTPClient *apiClient = [[AFHTTPClient alloc] initWithBaseURL:url];
-    [apiClient clearAuthorizationHeader];
-    [apiClient setAuthorizationHeaderWithUsername:self.authorizationToken password:@"X"];
+    AFHTTPRequestOperationManager *apiClient = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:url];
+    [apiClient.requestSerializer clearAuthorizationHeader];
+    [apiClient.requestSerializer setAuthorizationHeaderFieldWithUsername:self.authorizationToken password:@"X"];
+    NSURLRequest *request = [apiClient.requestSerializer requestWithMethod:@"GET" URLString:path parameters:nil];
 
-    NSURLRequest *request = [apiClient requestWithMethod:@"GET" path:path parameters:nil];
     return request;
 }
 
