@@ -7,8 +7,8 @@ Pod::Spec.new do |s|
   s.authors      = { 'Ben Kreeger' => 'ben@kree.gr', 'Fabio Pelosin' => 'fabiopelosin@gmail.com' }
   s.source       = { :git => 'https://github.com/kreeger/IFBKThirtySeven.git', :tag => "v#{s.version}" }
   s.source_files = 'Classes'
-  s.ios.deployment_target = '5.1'
-  s.osx.deployment_target = '10.7'
+  s.ios.deployment_target = '6.1'
+  s.osx.deployment_target = '10.8'
   s.frameworks   = 'SystemConfiguration'
   s.ios.frameworks = 'MobileCoreServices'
   s.osx.frameworks = 'CoreServices'
