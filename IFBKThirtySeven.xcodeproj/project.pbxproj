@@ -33,6 +33,7 @@
 		E50C64CF1832B01400FC72AB /* IFBKLPAuthorizationData.m in Sources */ = {isa = PBXBuildFile; fileRef = E50C64BE1832B01400FC72AB /* IFBKLPAuthorizationData.m */; };
 		E50C64D01832B01400FC72AB /* IFBKLPIdentity.m in Sources */ = {isa = PBXBuildFile; fileRef = E50C64C01832B01400FC72AB /* IFBKLPIdentity.m */; };
 		E50C64D11832B01400FC72AB /* NSString+IFBKThirtySeven.m in Sources */ = {isa = PBXBuildFile; fileRef = E50C64C31832B01400FC72AB /* NSString+IFBKThirtySeven.m */; };
+		E5311A08183E601000AD6E6E /* IFBKCampfireStreamingClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E5311A07183E601000AD6E6E /* IFBKCampfireStreamingClientTests.m */; };
 		EA8C5A71EDBC46E5B88D779A /* libPods-Project.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B2A634D04CA44A7B6BCA08F /* libPods-Project.a */; };
 /* End PBXBuildFile section */
 
@@ -102,6 +103,7 @@
 		E50C64C11832B01400FC72AB /* IFBKLPModels.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFBKLPModels.h; sourceTree = "<group>"; };
 		E50C64C21832B01400FC72AB /* NSString+IFBKThirtySeven.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+IFBKThirtySeven.h"; sourceTree = "<group>"; };
 		E50C64C31832B01400FC72AB /* NSString+IFBKThirtySeven.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+IFBKThirtySeven.m"; sourceTree = "<group>"; };
+		E5311A07183E601000AD6E6E /* IFBKCampfireStreamingClientTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFBKCampfireStreamingClientTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -202,6 +204,7 @@
 			isa = PBXGroup;
 			children = (
 				E50C64981832AFAD00FC72AB /* IFBKCampfireClientTests.m */,
+				E5311A07183E601000AD6E6E /* IFBKCampfireStreamingClientTests.m */,
 				E50C64931832AFAD00FC72AB /* Supporting Files */,
 			);
 			path = ProjectTests;
@@ -467,6 +470,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E5311A08183E601000AD6E6E /* IFBKCampfireStreamingClientTests.m in Sources */,
 				E50C64991832AFAD00FC72AB /* IFBKCampfireClientTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

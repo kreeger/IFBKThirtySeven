@@ -1,17 +1,9 @@
-//
-//  ProjectTests.m
-//  ProjectTests
-//
-//  Created by Fabio Pelosin on 12/11/13.
-//  Copyright (c) 2013 IFBK. All rights reserved.
-//
-
-#import "Kiwi.h"
-#import "Nocilla.h"
+#import <Kiwi/Kiwi.h>
+#import <Nocilla/Nocilla.h>
 #import <IFBKThirtySeven/IFBKThirtySeven.h>
 #import <SBJson/SBJson.h>
 
-SPEC_BEGIN(SpecName)
+SPEC_BEGIN(IFBKCampfireClientSpec)
 
 describe(@"IFBKCampfireClient", ^{
 
