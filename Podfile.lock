@@ -1,22 +1,20 @@
 PODS:
-  - AFNetworking (2.0.2):
+  - AFNetworking (2.0.3):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
     - AFNetworking/UIKit
-  - AFNetworking/NSURLConnection (2.0.2):
+  - AFNetworking/NSURLConnection (2.0.3):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/NSURLSession (2.0.2):
-    - AFNetworking/Reachability
-    - AFNetworking/Security
-    - AFNetworking/Serialization
-  - AFNetworking/Reachability (2.0.2)
-  - AFNetworking/Security (2.0.2)
-  - AFNetworking/Serialization (2.0.2)
+  - AFNetworking/NSURLSession (2.0.3):
+    - AFNetworking/NSURLConnection
+  - AFNetworking/Reachability (2.0.3)
+  - AFNetworking/Security (2.0.3)
+  - AFNetworking/Serialization (2.0.3)
   - IFBKThirtySeven (0.0.4):
     - AFNetworking (~> 2.0.2)
     - IFBKThirtySeven/Models
@@ -44,10 +42,10 @@ EXTERNAL SOURCES:
     :path: .
 
 SPEC CHECKSUMS:
-  AFNetworking: 22de50ae71ab1c4859773f61068d6fcd1d8f9a4d
+  AFNetworking: e499052cbf3d743e9bb727bb37adb9dc2547ba15
   IFBKThirtySeven: 9d99ad73cccefe64bf9ca3155e2dd5fd53744c26
   Kiwi: 04c51e880831d291748ec702d42c4101f7eb95c9
   Nocilla: 79bf72b15b7e6589d3d37ffa7540d7271fb75121
-  SBJson: e60b4dc22448c2ae1e754b523a4ab53408e85c8d
+  SBJson: abc2bf2baef456d5dae213f9826fe2b6fdf19861
 
 COCOAPODS: 0.28.0
