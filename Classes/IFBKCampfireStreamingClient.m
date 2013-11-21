@@ -12,8 +12,9 @@
 @property (strong, nonatomic) SBJsonStreamParserAdapter *adapter;
 @property (strong, nonatomic) SBJsonStreamParser *parser;
 @property (strong, nonatomic) NSURLConnection *connection;
-@property (copy, nonatomic) void (^connectionSuccess)(void);
-@property (copy, nonatomic) void (^connectionFailure)(NSError *error);
+@property (copy, nonatomic) StreamOpenBlock successBlock;
+@property (copy, nonatomic) StreamDidReceiveMessageBlock messageReceivedBlock;
+@property (copy, nonatomic) StreamDidEncounterErrorBlock failureBlock;
 @property (assign) NSUInteger connectionResponseCode;
 
 - (NSURLRequest *)request;
@@ -30,25 +31,29 @@
 
     _roomId = roomId;
     _authorizationToken = authorizationToken;
+
+    _adapter = [[SBJsonStreamParserAdapter alloc] init];
+	_adapter.delegate = self;
+	_parser = [[SBJsonStreamParser alloc] init];
+	_parser.delegate = self.adapter;
+	_parser.supportMultipleDocuments = YES;
+
     return self;
 }
 
 #pragma mark - Public methods
 
-- (void)openConnectionWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure {
-    self.connectionSuccess = success;
-    self.connectionFailure = failure;
-	self.adapter = [[SBJsonStreamParserAdapter alloc] init];
-	self.adapter.delegate = self;
-	self.parser = [[SBJsonStreamParser alloc] init];
-	self.parser.delegate = self.adapter;
-	self.parser.supportMultipleDocuments = YES;
+- (void)openConnection:(StreamOpenBlock)success messageReceived:(StreamDidReceiveMessageBlock)messageReceived failure:(StreamDidEncounterErrorBlock)failure {
+    self.successBlock = success;
+    self.messageReceivedBlock = messageReceived;
+    self.failureBlock = failure;
     self.connectionResponseCode = 0;
 	self.connection = [[NSURLConnection alloc] initWithRequest:[self request] delegate:self];
 }
 
-- (void)openConnection {
-    [self openConnectionWithSuccess:nil failure:nil];
+- (void)reopenConnection {
+    self.connectionResponseCode = 0;
+	self.connection = [[NSURLConnection alloc] initWithRequest:[self request] delegate:self];
 }
 
 - (void)closeConnection {
@@ -83,43 +88,42 @@
 #pragma mark - NSURLConnectionDelegate
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
-
     NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
     self.connectionResponseCode = [httpResponse statusCode];
     if (self.connectionResponseCode == 200) {
-        if (self.connectionSuccess) {
-            self.connectionSuccess();
-            self.connectionSuccess = nil;
+        if (self.successBlock) {
+            self.successBlock(httpResponse);
         }
     }
 }
 
+// TODO: Improve error handling.
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
-
     if (self.connectionResponseCode == 200) {
         SBJsonStreamParserStatus status = [self.parser parse:data];
 
         if (status == SBJsonStreamParserError) {
             NSDictionary *userInfo = @{ NSLocalizedDescriptionKey: self.parser.error };
             NSError *error = [NSError errorWithDomain:@"ERRORDOMAIN" code:0001 userInfo:userInfo];
-            if (self.connectionFailure) {
-                self.connectionFailure(error);
+            if (self.failureBlock) {
+                self.failureBlock(error);
             }
         }
     } else {
+        // TODO: Differentiate between authentication errors and other errors
         NSString *responseString = [NSString stringWithUTF8String:[data bytes]];
         NSDictionary *userInfo = @{ NSLocalizedDescriptionKey: [NSString stringWithFormat:@"Unexpected Response code: %lu - %@", (unsigned long)self.connectionResponseCode, responseString] };
         NSError *error = [NSError errorWithDomain:@"ERRORDOMAIN" code:0001 userInfo:userInfo];
-        if (self.connectionFailure) {
-            self.connectionFailure(error);
+        if (self.failureBlock) {
+            self.failureBlock(error);
         }
 
     }
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-    if (self.connectionFailure) {
-        self.connectionFailure(error);
+    if (self.failureBlock) {
+        self.failureBlock(error);
     }
 }
 
