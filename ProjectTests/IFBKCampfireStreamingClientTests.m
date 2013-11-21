@@ -25,10 +25,14 @@ describe(@"IFBKCampfireStreamingClient", ^{
         [[LSNocilla sharedInstance] clearStubs];
     });
 
-    context(@"In case of a sucessful response", ^{
-        it(@"", ^{
-
-        });
+    it(@"Opens the connection", ^{
+        stubRequest(@"GET", @"https://streaming.campfirenow.com/room/1/live.json").
+        andReturn(200);
+        __block NSHTTPURLResponse *capturedResponse;
+        [sut openConnection:^(NSHTTPURLResponse *httpResponse) {
+            capturedResponse = httpResponse;
+        } messageReceived:nil failure:nil];
+        [[expectFutureValue(theValue(capturedResponse.statusCode)) shouldEventually] equal:@200];
     });
 });
 

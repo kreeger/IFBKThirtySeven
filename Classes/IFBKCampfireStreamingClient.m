@@ -69,7 +69,8 @@
     AFHTTPRequestOperationManager *apiClient = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:url];
     [apiClient.requestSerializer clearAuthorizationHeader];
     [apiClient.requestSerializer setAuthorizationHeaderFieldWithUsername:self.authorizationToken password:@"X"];
-    NSURLRequest *request = [apiClient.requestSerializer requestWithMethod:@"GET" URLString:path parameters:nil];
+    NSString *urlString = [[NSURL URLWithString:path relativeToURL:url] absoluteString];
+    NSURLRequest *request = [apiClient.requestSerializer requestWithMethod:@"GET" URLString:urlString parameters:nil];
 
     return request;
 }
