@@ -118,7 +118,6 @@
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-    [self openConnection];
     if (self.connectionFailure) {
         self.connectionFailure(error);
     }
