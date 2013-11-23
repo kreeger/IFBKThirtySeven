@@ -38,7 +38,7 @@
     static IFBKLaunchpadClient *__sharedInstance;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        NSURL *baseURL = [NSURL URLWithString:@"https://launchpad.37signals.com/authorization"];
+        NSURL *baseURL = [NSURL URLWithString:@"https://launchpad.37signals.com"];
         __sharedInstance = [[IFBKLaunchpadClient alloc] initWithBaseURL:baseURL];
     });
     return __sharedInstance;
@@ -90,7 +90,8 @@
                              @"redirect_uri": [[self sharedInstance] redirectUri],
                              @"client_secret": [[self sharedInstance] clientSecret],
                              @"code": [verificationCode stringByUrlEncoding]};
-    [[self sharedInstance] POST:@"token"
+
+    [[self sharedInstance] POST:@"authorization/token"
                      parameters:params
                         success:^(AFHTTPRequestOperation *operation, id responseObject)
      {
@@ -109,7 +110,7 @@
                              @"refresh_token": refreshToken,
                              @"client_id": [[self sharedInstance] clientId],
                              @"client_secret": [[self sharedInstance] clientSecret]};
-    [[self sharedInstance] POST:@"token"
+    [[self sharedInstance] POST:@"authorization/token"
                      parameters:params
                         success:^(AFHTTPRequestOperation *operation, id responseObject)
      {
@@ -126,7 +127,7 @@
 }
 
 + (void)getAuthorizationData:(AuthDataBlock)success failure:(FailureBlock)failure {
-    [[self sharedInstance] GET:@"" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [[self sharedInstance] GET:@"authorization.json" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         IFBKLPAuthorizationData *authData = [IFBKLPAuthorizationData modelWithDictionary:responseObject];
         success(authData);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
