@@ -107,7 +107,7 @@ typedef void (^UploadBlock)(IFBKCFUpload *upload);
 
 #pragma mark - Room methods
 
-/** Gets a list of rooms belonging to the current Campfire account.
+/** Gets a list of rooms belonging to the current Campfire account. The returned room representaions will not include the list of the users present in the room.
  *  https://github.com/37signals/campfire-api/blob/master/sections/rooms.md#get-rooms
  *
  *  @param success A block to be called upon completion; contains a list of IFBKCFRoom instances.
