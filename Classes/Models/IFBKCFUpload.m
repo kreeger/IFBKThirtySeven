@@ -6,7 +6,7 @@
 + (NSDictionary *)apiMappingHash {
     return @{@"id": @"identifier",
              @"name": @"name",
-             @"room_id": @"roomIdentifer",
+             @"room_id": @"roomIdentifier",
              @"user_id": @"userIdentifier",
              @"byte_size": @"byteSize",
              @"content_type": @"contentType",

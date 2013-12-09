@@ -297,13 +297,15 @@
     };
 
     NSString *path = [NSString stringWithFormat:@"room/%@/uploads", roomId];
+    NSString *urlString = [[NSURL URLWithString:path relativeToURL:self.baseURL] absoluteString];
     NSMutableURLRequest *request = [self.requestSerializer multipartFormRequestWithMethod:@"POST"
-                                                                                URLString:path
+                                                                                URLString:urlString
                                                                                parameters:nil
                                                                 constructingBodyWithBlock:appendBlock];
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
     [operation setUploadProgressBlock:progressBlock];
     [operation setCompletionBlockWithSuccess:completionBlock failure:failureBlock];
+    [operation setResponseSerializer:self.responseSerializer];
     [self.operationQueue addOperation:operation];
 }
 
