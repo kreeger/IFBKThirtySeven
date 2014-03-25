@@ -9,6 +9,7 @@ typedef void (^UserBlock)(IFBKCFUser *user);
 typedef void (^RoomBlock)(IFBKCFRoom *room);
 typedef void (^MessageBlock)(IFBKCFMessage *message);
 typedef void (^UploadBlock)(IFBKCFUpload *upload);
+typedef void (^ProgressBlock)(NSProgress *progress);
 
 /** The big kahuna. This manages all inbound and outbound communication with 37signals' Campfire API.
  */
@@ -229,6 +230,7 @@ typedef void (^UploadBlock)(IFBKCFUpload *upload);
           filename:(NSString *)filename
             toRoom:(NSNumber *)roomId
            success:(UploadBlock)success
+          progress:(ProgressBlock)progress
            failure:(FailureBlock)failure;
 
 /** Gets the five (5) most recent uploads to a given Campfire room.

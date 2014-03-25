@@ -273,6 +273,7 @@
           filename:(NSString *)filename
             toRoom:(NSNumber *)roomId
            success:(UploadBlock)success
+          progress:(ProgressBlock)progress
            failure:(FailureBlock)failure {
     // We're getting the mime type here.
     CFStringRef uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension,
@@ -283,10 +284,16 @@
     void (^appendBlock)(id<AFMultipartFormData>) = ^(id<AFMultipartFormData>formData) {
         [formData appendPartWithFileData:file name:@"upload" fileName:filename mimeType:mimeType];
     };
+
+    __block NSProgress *progressInstance = [NSProgress progressWithTotalUnitCount:[file length]];
     void (^progressBlock)(NSUInteger, long long, long long) = ^(NSUInteger written,
                                                                 long long totalWritten,
                                                                 long long totalToWrite) {
-        NSLog(@"Sent %lu of %lld bytes", (unsigned long)written, totalToWrite);
+        if (!progressInstance) {
+            progressInstance = [NSProgress progressWithTotalUnitCount:totalToWrite];
+        }
+        [progressInstance setCompletedUnitCount:totalWritten];
+        progress(progressInstance);
     };
     void (^completionBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id responseObject) {
         IFBKCFUpload *upload = [IFBKCFUpload modelWithDictionary:responseObject[@"upload"]];
